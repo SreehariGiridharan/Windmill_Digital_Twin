@@ -6,8 +6,21 @@
     <title>Unity WebGL Player | Windmill_test_WebGL</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+        
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js"></script>
+
+    <!-- Your Firebase init script -->
+    <script type="module" src="firebase-init.js"></script>
+
   </head>
+
+
   <body>
+    
+
+
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -23,6 +36,11 @@
         <div id="unity-build-title">Windmill_test_WebGL</div>
       </div>
     </div>
+
+
+
+
+ 
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -31,7 +49,7 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-
+      
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -85,6 +103,7 @@
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
+        
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
@@ -118,5 +137,71 @@
       document.body.appendChild(script);
 
     </script>
+
+    <!-- ✅ Realtime Firebase Sensor Data Script -->
+    <script type="module">
+      // Wait for window objects from firebase-init.js
+      window.addEventListener("load", () => {
+        const database = window.firebaseDatabase;
+        const ref = window.firebaseRef;
+        const onValue = window.firebaseOnValue;
+
+        const tempRef = ref(database, "Temperature");
+        const windRef = ref(database, "wind_speed");
+
+        const tempEl = document.getElementById("temp");
+        const windEl = document.getElementById("wind");
+
+        onValue(tempRef, (snapshot) => {
+          const val = snapshot.val();
+          tempEl.textContent = val !== null ? val.toFixed(1) : "--";
+        });
+
+        onValue(windRef, (snapshot) => {
+          const val = snapshot.val();
+          windEl.textContent = val !== null ? val.toFixed(1) : "--";
+        });
+      });
+    </script>
+    <script type="module">
+      // Wait for Firebase to be ready
+      window.addEventListener("load", () => {
+      const database = window.firebaseDatabase;
+      const ref = window.firebaseRef;
+      const set = window.firebaseSet;
+
+      function sendRandomTemperature() {
+        const temp = (24 + Math.random() * 5).toFixed(2);  // Random between 24–29 °C
+        const tempRef = ref(database, "Temperature");
+        set(tempRef, parseFloat(temp)).then(() => {
+          console.log("🔁 Updated temperature:", temp);
+        }).catch((err) => {
+          console.error("🔥 Failed to update temperature:", err);
+        });
+      }
+      function sendRandomWindSpeed() {
+        const windSpeed = (Math.random() * 5).toFixed(2);  // Random between 0–5 m/s
+        const windRef = ref(database, "wind_speed");
+        set(windRef, parseFloat(windSpeed)).then(() => {
+          console.log("🔁 Updated wind speed:", windSpeed);
+        }).catch((err) => {
+          console.error("🔥 Failed to update wind speed:", err);
+        });
+      }
+    
+      // Update temperature every 5 seconds
+      setInterval(sendRandomTemperature, 2000);
+      setInterval(sendRandomWindSpeed, 2000);
+    });
+    </script>
+
+    <!-- ✅ Live Sensor Display -->
+    <div style="padding: 0px; background-color: #f0f0f0;">
+      <h2>🌐 Windmill </h2>
+       <h2></h2> Sensor Data</h2>
+      <p>🌡️ T: <span id="temp">--</span> °C</p>
+      <p>💨 WS: <span id="wind">--</span> m/s</p>
+    </div>
+
   </body>
 </html>
