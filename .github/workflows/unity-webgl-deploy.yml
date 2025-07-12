@@ -1,0 +1,30 @@
+name: Build and Deploy Unity WebGL
+
+on:
+  push:
+    branches: [dev]  # change this to your branch name
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Unity
+        uses: game-ci/unity-actions/setup@v2
+        with:
+          unityVersion: 2022.3.16f1  # Replace with your exact version
+
+      - name: Build WebGL
+        uses: game-ci/unity-actions/build@v2
+        with:
+          targetPlatform: WebGL
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/WebGL  # Adjust if your path is different
