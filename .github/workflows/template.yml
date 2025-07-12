@@ -5,8 +5,7 @@ on: push
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-
-
+jobs:
   buildWebGL:
     needs: testRunner
     name: Build for WebGL 🖥️
