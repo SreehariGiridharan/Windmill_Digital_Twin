@@ -59,7 +59,7 @@ jobs:
         uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
-          customImage: unityci/editor:ubuntu-2022.3.16f1-webgl-3
+          customImage: unityci/editor:ubuntu-2021.3.16f1-webgl-1
 
       - name: Upload WebGL Build
         uses: actions/upload-artifact@v4
