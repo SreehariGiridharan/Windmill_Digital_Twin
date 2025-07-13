@@ -32,13 +32,13 @@ jobs:
           - PlayMode
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # ✅ Updated
 
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
       - name: Restore LFS cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4  # ✅ Updated
         id: lfs-cache
         with:
           path: .git/lfs
@@ -51,7 +51,7 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4  # ✅ Updated
         with:
           path: Library
           key: Library-test-project-${{ matrix.targetPlatform }}
@@ -67,10 +67,12 @@ jobs:
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload test results
+        uses: actions/upload-artifact@v4  # ✅ Updated
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+
           
   buildWebGL:
     needs: testRunner
