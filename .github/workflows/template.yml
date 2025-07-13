@@ -6,17 +6,17 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 jobs:
-  activateLicense:
-    name: Activate Unity License 🔐
+  activateUnity:
+    name: Activate Unity License (via builder)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Activate license
-        uses: game-ci/unity-activate@v2
+      - name: Activate via Dummy Build
+        uses: game-ci/unity-builder@v2
         with:
+          targetPlatform: WebGL
           unityVersion: 2022.3.16f1
-          customImage: unityci/editor:ubuntu-2022.3.16f1-webgl-3
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           
