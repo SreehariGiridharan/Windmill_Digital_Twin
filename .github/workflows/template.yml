@@ -32,13 +32,13 @@ jobs:
           - PlayMode
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # ✅ Updated
+        uses: actions/checkout@v3
 
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
       - name: Restore LFS cache
-        uses: actions/cache@v4  # ✅ Updated
+        uses: actions/cache@v4
         id: lfs-cache
         with:
           path: .git/lfs
@@ -51,7 +51,7 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
-        uses: actions/cache@v4  # ✅ Updated
+        uses: actions/cache@v4
         with:
           path: Library
           key: Library-test-project-${{ matrix.targetPlatform }}
@@ -63,15 +63,17 @@ jobs:
         uses: game-ci/unity-test-runner@v2
         id: testRunner
         with:
+          unityVersion: 2021.3.16f1   # <-- Force Unity version here
           testMode: ${{ matrix.testMode }}
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4  # ✅ Updated
+        uses: actions/upload-artifact@v4
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+
 
           
   buildWebGL:
