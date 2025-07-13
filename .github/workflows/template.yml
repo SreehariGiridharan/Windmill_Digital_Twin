@@ -9,6 +9,8 @@ jobs:
   activateLicense:
     name: Activate Unity License 🔐
     runs-on: ubuntu-latest
+    container:
+      image: unityci/editor:ubuntu-2022.3.16f1-linux-il2cpp-3
     steps:
       - uses: actions/checkout@v3
 
