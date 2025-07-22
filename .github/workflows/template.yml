@@ -10,7 +10,7 @@ jobs:
     name: Activate Unity License 🔐
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Activate license
         uses: game-ci/unity-activate@v2
@@ -60,7 +60,7 @@ jobs:
             Library-
 
       - name: Run tests
-        uses: game-ci/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v4
         id: testRunner
         with:
           unityVersion: 2021.3.16f1   # <-- Force Unity version here
