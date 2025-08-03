@@ -1,0 +1,3 @@
+[submodule "Assets/XCharts"]
+	path = Assets/XCharts
+	url = https://github.com/XCharts-Team/XCharts.git

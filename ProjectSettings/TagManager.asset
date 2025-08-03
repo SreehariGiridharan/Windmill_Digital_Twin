@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: View Button
+    uniqueID: 1346065481
+    locked: 0
+  - name: Temperature view
+    uniqueID: 3143225717
+    locked: 0
+  - name: Wind Speed view
+    uniqueID: 3658412909
+    locked: 0
