@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
       - develop
   pull_request:
     branches:
@@ -11,7 +12,7 @@ on:
   workflow_dispatch:  # Manual trigger
 
 env:
-  UNITY_VERSION: 2022.3.16f1  # Change to your Unity version
+  UNITY_VERSION: 2022.3.10f1  # Change to your Unity version
 
 jobs:
   build:
@@ -28,7 +29,7 @@ jobs:
 
       # Cache Library folder to speed up builds
       - name: Cache Library
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -58,7 +59,7 @@ jobs:
 
       # Upload build artifacts
       - name: Upload Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: WebGL-Build
           path: build/WebGL
